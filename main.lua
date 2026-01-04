@@ -79,4 +79,4 @@ Connection = ProximityPromptService.PromptButtonHoldEnded:Connect(function(
     task.delay(0.6, function()
         TextLabel.Text = "nt hub\nhold out carpet and desync"
     end)
-end
+end) -- <--- This closes the ProximityPromptService connection
