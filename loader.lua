@@ -1,25 +1,18 @@
--- NTs Hub Loader
-local success, status = pcall(function()
-    return game:HttpGet("https://raw.githubusercontent.com/bfy7y7jsn7-coder/ntshub/main/status.txt", true)
-end)
+local url_status = "https://raw.githubusercontent.com/bfy7y7jsn7-coder/ntshub/main/status.txt"
+local url_hub    = "https://raw.githubusercontent.com/bfy7y7jsn7-coder/ntshub/main/main.lua"
 
-if not success then
-    warn("Could not check status!")
-    return
-end
+local ok, status = pcall(function() return game:HttpGet(url_status, true) end)
+if not ok then warn("Cannot check status!") return end
 
-if status:lower():find("off") then
+status = status:lower():gsub("%s+", "") -- removes spaces/newlines
+
+if status == "off" then
     warn("NTs Hub is currently disabled.")
     return
 end
 
-local hub_code, err = pcall(function()
-    return game:HttpGet("https://raw.githubusercontent.com/bfy7y7jsn7-coder/ntshub/main/main.lua", true)
-end)
+local ok2, hub = pcall(function() return game:HttpGet(url_hub, true) end)
+if not ok2 then warn("Failed to load NTs Hub", hub) return end
 
-if not hub_code then
-    warn("Failed to load NTs Hub:", err)
-    return
-end
+loadstring(hub)()
 
-loadstring(hub_code)()
